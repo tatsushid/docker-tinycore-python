@@ -62,6 +62,7 @@ RUN tce-load -wic \
     && for PKG in binutils.tcz \
                 cloog.tcz \
                 flex.tcz \
+                file.tcz \
                 gcc.tcz \
                 gcc_libs.tcz \
                 linux-3.16.2_api_headers.tcz \

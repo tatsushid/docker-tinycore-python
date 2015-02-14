@@ -61,6 +61,7 @@ RUN tce-load -wic \
         done \
     && for PKG in binutils.tcz \
                 cloog.tcz \
+                file.tcz \
                 flex.tcz \
                 gcc.tcz \
                 gcc_libs.tcz \
