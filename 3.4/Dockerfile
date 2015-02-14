@@ -1,0 +1,90 @@
+FROM tatsushid/tinycore:6.0-x86_64
+
+# Instructions are run with 'tc' user
+
+# http://bugs.python.org/issue19846
+# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+ENV LANG C.UTF-8
+
+ENV PYTHON_VERSION 3.4.2
+
+RUN tce-load -wic gnupg curl
+    && rm -rf /tmp/tce/optional/*
+
+# gpg: key F73C700D: public key "Larry Hastings <larry@hastings.org>" imported
+RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys 97FC712E4C024BBEA48A61ED3A5CA953F73C700D
+
+RUN tce-load -wic \
+        flex \
+        file \
+        gcc \
+        make \
+        linux-3.16.2_api_headers \
+        glibc_base-dev \
+        openssl-1.0.0-dev \
+        ncurses-dev \
+        readline-dev \
+        zlib_base-dev \
+    && cd /tmp \
+    && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
+    && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz.asc" -o python.tar.xz.asc \
+    && gpg2 --verify python.tar.xz.asc \
+    && rm python.tar.xz.asc \
+    && tar -xJf python.tar.xz \
+    && rm python.tar.xz \
+    && cd "/tmp/Python-$PYTHON_VERSION" \
+    && ./configure --enable-shared \
+    && make \
+    && mkdir tmp_install \
+    && make install DESTDIR=tmp_install \
+    && for F in `find tmp_install | xargs file | grep "executable" | grep ELF | grep "not stripped" | cut -f 1 -d :`; do \
+            [ -f $F ] && strip --strip-unneeded $F; \
+        done \
+    && for F in `find tmp_install | xargs file | grep "shared object" | grep ELF | grep "not stripped" | cut -f 1 -d :`; do \
+            [ -f $F ] && if [ ! -w $F ]; then chmod u+w $F && strip -g $F && chmod u-w $F; else strip -g $F; fi \
+        done \
+    && for F in `find tmp_install | xargs file | grep "current ar archive" | cut -f 1 -d :`; do \
+            [ -f $F ] && strip -g $F; \
+        done \
+    && find tmp_install \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' + \
+    && find tmp_install \( -type d -a -name test -o -name tests \) | xargs rm -rf \
+    && $(cd tmp_install; sudo cp -R . /) \
+    && rm -rf "/tmp/Python-$PYTHON_VERSION" \
+    && cd /tmp/tce/optional \
+    && for PKG in `ls *-dev.tcz`; do \
+            echo "Removing $PKG files"; \
+            for F in `unsquashfs -l $PKG | grep squashfs-root | sed -e 's/squashfs-root//'`; do \
+                [ -f $F -o -L $F ] && sudo rm -f $F; \
+            done; \
+            INSTALLED=$(echo -n $PKG | sed -e s/.tcz//); \
+            sudo rm -f /usr/local/tce.installed/$INSTALLED; \
+        done \
+    && for PKG in binutils.tcz \
+                cloog.tcz \
+                flex.tcz \
+                gcc.tcz \
+                gcc_libs.tcz \
+                linux-3.16.2_api_headers.tcz \
+                make.tcz; do \
+            echo "Removing $PKG files"; \
+            for F in `unsquashfs -l $PKG | grep squashfs-root | sed -e 's/squashfs-root//'`; do \
+                [ -f $F -o -L $F ] && sudo rm -f $F; \
+            done; \
+            INSTALLED=$(echo -n $PKG | sed -e s/.tcz//); \
+            sudo rm -f /usr/local/tce.installed/$INSTALLED; \
+        done \
+    && sudo /sbin/ldconfig \
+    && rm -rf /tmp/tce/optional/*
+
+# Instructions after here are run with 'root' user
+USER root
+
+RUN cd /usr/local/bin \
+    && ln -s easy_install-3.4 easy_install \
+    && ln -s idel3 idle \
+    && ln -s pip3 pip \
+    && ln -s pydoc3 pydoc \
+    && ln -s python3 python \
+    && ln -s python3-config python-config
+
+CMD ["python3"]
