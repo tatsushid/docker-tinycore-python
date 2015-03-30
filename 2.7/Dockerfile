@@ -15,6 +15,7 @@ RUN tce-load -wic gnupg curl
 RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF
 
 RUN tce-load -wic \
+        bzip2-dev \
         flex \
         file \
         gcc \
