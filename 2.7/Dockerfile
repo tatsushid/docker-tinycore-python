@@ -8,7 +8,7 @@ ENV LANG C.UTF-8
 
 ENV PYTHON_VERSION 2.7.9
 
-RUN tce-load -wic gnupg curl
+RUN tce-load -wic gnupg curl \
     && rm -rf /tmp/tce/optional/*
 
 # gpg: key 18ADD4FF: public key "Benjamin Peterson <benjamin@python.org>" imported

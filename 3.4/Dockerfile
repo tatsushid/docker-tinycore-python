@@ -8,7 +8,7 @@ ENV LANG C.UTF-8
 
 ENV PYTHON_VERSION 3.4.3
 
-RUN tce-load -wic gnupg curl
+RUN tce-load -wic gnupg curl \
     && rm -rf /tmp/tce/optional/*
 
 # gpg: key F73C700D: public key "Larry Hastings <larry@hastings.org>" imported
