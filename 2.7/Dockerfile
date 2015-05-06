@@ -23,9 +23,16 @@ RUN tce-load -wic \
         linux-3.16.2_api_headers \
         glibc_base-dev \
         openssl-1.0.0-dev \
+        gdbm-dev \
         ncurses-dev \
         readline-dev \
+        sqlite3-dev \
         zlib_base-dev \
+        tk-dev \
+        libX11-dev \
+        libXss \
+        xorg-proto \
+    && sudo ln -s /usr/local/bin/file /usr/bin/file \
     && cd /tmp \
     && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
     && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz.asc" -o python.tar.xz.asc \
@@ -67,7 +74,9 @@ RUN tce-load -wic \
                 gcc.tcz \
                 gcc_libs.tcz \
                 linux-3.16.2_api_headers.tcz \
-                make.tcz; do \
+                make.tcz \
+                sqlite3-bin.tcz \
+                xorg-proto.tcz; do \
             echo "Removing $PKG files"; \
             for F in `unsquashfs -l $PKG | grep squashfs-root | sed -e 's/squashfs-root//'`; do \
                 [ -f $F -o -L $F ] && sudo rm -f $F; \
@@ -75,6 +84,7 @@ RUN tce-load -wic \
             INSTALLED=$(echo -n $PKG | sed -e s/.tcz//); \
             sudo rm -f /usr/local/tce.installed/$INSTALLED; \
         done \
+    && sudo rm -f /usr/bin/file \
     && sudo /sbin/ldconfig \
     && rm -rf /tmp/tce/optional/*
 
