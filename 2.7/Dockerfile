@@ -6,13 +6,13 @@ FROM tatsushid/tinycore:6.2-x86_64
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
 
-ENV PYTHON_VERSION 2.7.9
-
 RUN tce-load -wic gnupg curl \
     && rm -rf /tmp/tce/optional/*
 
 # gpg: key 18ADD4FF: public key "Benjamin Peterson <benjamin@python.org>" imported
 RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF
+
+ENV PYTHON_VERSION 2.7.9
 
 RUN tce-load -wic \
         bzip2-dev \
