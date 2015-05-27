@@ -14,6 +14,9 @@ RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys 97FC712E4C024BBEA48A61E
 
 ENV PYTHON_VERSION 3.4.3
 
+# if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
+ENV PYTHON_PIP_VERSION 7.0.1
+
 RUN tce-load -wic \
         bzip2-dev \
         flex \
@@ -88,7 +91,12 @@ RUN tce-load -wic \
         done \
     && sudo rm -f /usr/bin/file \
     && sudo /sbin/ldconfig \
-    && rm -rf /tmp/tce/optional/*
+    && rm -rf /tmp/tce/optional/* \
+    && curl -SL 'https://bootstrap.pypa.io/get-pip.py' | sudo python3 \
+    && sudo pip install --upgrade pip==$PYTHON_PIP_VERSION \
+    && sudo find /usr/local \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' + \
+    && find /usr/local \( -type d -a -name test -o -name tests \) | sudo xargs rm -rf \
+    && sudo rm -rf /usr/src/python
 
 # Instructions after here are run with 'root' user
 USER root
@@ -96,7 +104,6 @@ USER root
 RUN cd /usr/local/bin \
     && ln -s easy_install-3.4 easy_install \
     && ln -s idel3 idle \
-    && ln -s pip3 pip \
     && ln -s pydoc3 pydoc \
     && ln -s python3 python \
     && ln -s python3-config python-config
