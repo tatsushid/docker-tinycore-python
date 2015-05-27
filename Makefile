@@ -1,5 +1,5 @@
-PYTHON_DIRS := 3.4
-ONBUILD_DIRS := 3.4/onbuild
+PYTHON_DIRS := 3.4 2.7
+ONBUILD_DIRS := 3.4/onbuild 2.7/onbuild
 
 .PHONY: all clean $(PYTHON_DIRS) $(ONBUILD_DIRS)
 
