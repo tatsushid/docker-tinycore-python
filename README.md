@@ -7,7 +7,7 @@ This provides a small but a fully functional [Python](https://www.python.org/) r
 
 - [`2.7` (2.7/Dockerfile)](https://github.com/tatsushid/docker-tinycore-python/blob/master/2.7/Dockerfile)
 - [`2.7-onbuild` (2.7/onbuild/Dockerfile)](https://github.com/tatsushid/docker-tinycore-python/blob/master/2.7/onbuild/Dockerfile)
-- [`3.4` (3.4/Dockerfile)][Latest Dockerfile]
+- [`3.4`, `latest` (3.4/Dockerfile)][Latest Dockerfile]
 - [`3.4-onbuild` (3.4/onbuild/Dockerfile)](https://github.com/tatsushid/docker-tinycore-python/blob/master/3.4/onbuild/Dockerfile)
 
 ## How to use this image
