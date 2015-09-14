@@ -25,7 +25,7 @@ RUN tce-load -wic \
         make \
         linux-3.16.2_api_headers \
         glibc_base-dev \
-        openssl-1.0.0-dev \
+        openssl-dev \
         gdbm-dev \
         ncurses-dev \
         readline-dev \
