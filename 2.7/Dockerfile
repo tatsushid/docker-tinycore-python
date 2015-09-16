@@ -91,7 +91,7 @@ RUN tce-load -wic \
     && sudo /sbin/ldconfig \
     && rm -rf /tmp/tce/optional/* \
     && curl -SL 'https://bootstrap.pypa.io/get-pip.py' | sudo python2 \
-    && sudo pip install --upgrade pip==$PYTHON_PIP_VERSION \
+    && sudo pip install --no-cache-dir --upgrade pip==$PYTHON_PIP_VERSION \
     && sudo find /usr/local \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' + \
     && find /usr/local \( -type d -a -name test -o -name tests \) | sudo xargs rm -rf \
     && sudo rm -rf /usr/src/python
@@ -100,6 +100,6 @@ RUN tce-load -wic \
 USER root
 
 # install "virtualenv", since the vast majority of users of this image will want it
-RUN pip install virtualenv
+RUN pip install --no-cache-dir virtualenv
 
 CMD ["python2"]
