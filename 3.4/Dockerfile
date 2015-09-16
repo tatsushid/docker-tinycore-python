@@ -15,7 +15,7 @@ RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys 97FC712E4C024BBEA48A61E
 ENV PYTHON_VERSION 3.4.3
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 7.0.1
+ENV PYTHON_PIP_VERSION 7.1.2
 
 RUN tce-load -wic \
         bzip2-dev \
