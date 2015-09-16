@@ -1,7 +1,7 @@
 Python on Tiny Core Linux
 =========================
 
-This provides a small but a fully functional [Python](https://www.python.org/) runtime environment. This image is based on my [Tiny Core Linux Docker image](https://registry.hub.docker.com/u/tatsushid/tinycore/).
+This provides a small but a fully functional [Python](https://www.python.org/) runtime environment. This image is based on my [Tiny Core Linux Docker image](https://hub.docker.com/r/tatsushid/tinycore/).
 
 ## Supported tags and respective `Dockerfile` links
 
@@ -12,7 +12,7 @@ This provides a small but a fully functional [Python](https://www.python.org/) r
 
 ## How to use this image
 
-This can be used in the same way as [Official Python Image](https://registry.hub.docker.com/_/python/). Please see "How to use this image" section of it with replacing the image name with this one.
+This can be used in the same way as [Official Python Image](https://hub.docker.com/_/python/). Please see "How to use this image" section of it with replacing the image name with this one.
 
 ## How to install C extension etc.
 
