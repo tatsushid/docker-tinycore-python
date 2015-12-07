@@ -12,7 +12,7 @@ RUN tce-load -wic gnupg curl \
 # gpg: key F73C700D: public key "Larry Hastings <larry@hastings.org>" imported
 RUN gpg2 --keyserver pool.sks-keyservers.net --recv-keys 97FC712E4C024BBEA48A61ED3A5CA953F73C700D
 
-ENV PYTHON_VERSION 3.5.0
+ENV PYTHON_VERSION 3.5.1
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 7.1.2
