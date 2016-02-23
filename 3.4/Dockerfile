@@ -1,4 +1,4 @@
-FROM tatsushid/tinycore:6.4-x86_64
+FROM tatsushid/tinycore:7.0-x86_64
 
 # Instructions are run with 'tc' user
 
@@ -23,7 +23,8 @@ RUN tce-load -wic \
         file \
         gcc \
         make \
-        linux-3.16.2_api_headers \
+        linux-4.2.1_api_headers \
+        glibc_add_lib \
         glibc_base-dev \
         openssl-dev \
         gdbm-dev \
@@ -36,7 +37,6 @@ RUN tce-load -wic \
         libX11-dev \
         libXss \
         xorg-proto \
-    && sudo ln -s /usr/local/bin/file /usr/bin/file \
     && cd /tmp \
     && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
     && curl -SL "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz.asc" -o python.tar.xz.asc \
@@ -77,7 +77,7 @@ RUN tce-load -wic \
                 file.tcz \
                 gcc.tcz \
                 gcc_libs.tcz \
-                linux-3.16.2_api_headers.tcz \
+                linux-4.2.1_api_headers.tcz \
                 make.tcz \
                 sqlite3-bin.tcz \
                 xz.tcz \
